@@ -20,6 +20,11 @@ app.use(express.urlencoded({ extended: true }))
 app.use(errorHandler)
 app.use(cors())
 
+app.get("/", (req: Request, res: any) => {
+  res.send("Hello welcome to circle!");
+});
+
+
 app.post('/registration', authControllers.registerUser);
 app.post('/login', authControllers.loginUser);
 
