@@ -1,90 +1,36 @@
 import { PrismaClient } from '@prisma/client';
+import fs from 'fs';
+import path from 'path';
 
 const prisma = new PrismaClient();
 
-const serviceData = [
-  {
-    service_code: "PAJAK",
-    service_name: "Pajak PBB",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 40000,
-  },
-  {
-    service_code: "PLN",
-    service_name: "Listrik",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 10000,
-  },
-  {
-    service_code: "PDAM",
-    service_name: "PDAM Berlangganan",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 40000,
-  },
-  {
-    service_code: "PULSA",
-    service_name: "Pulsa",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 40000,
-  },
-  {
-    service_code: "PGN",
-    service_name: "PGN Berlangganan",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 50000,
-  },
-  {
-    service_code: "MUSIK",
-    service_name: "Musik Berlangganan",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 50000,
-  },
-  {
-    service_code: "TV",
-    service_name: "TV Berlangganan",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 50000,
-  },
-  {
-    service_code: "PAKET_DATA",
-    service_name: "Paket data",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 50000,
-  },
-  {
-    service_code: "VOUCHER_GAME",
-    service_name: "Voucher Game",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 100000,
-  },
-  {
-    service_code: "VOUCHER_MAKANAN",
-    service_name: "Voucher Makanan",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 100000,
-  },
-  {
-    service_code: "QURBAN",
-    service_name: "Qurban",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 200000,
-  },
-  {
-    service_code: "ZAKAT",
-    service_name: "Zakat",
-    service_icon: "https://nutech-integrasi.app/dummy.jpg",
-    service_tarif: 300000,
-  },
-];
-
 async function main() {
-  for (const service of serviceData) {
-    await prisma.service.upsert({
-      where: { service_code: service.service_code },
-      update: {},
-      create: service,
+  // Baca file JSON untuk Banner
+  const bannerData = JSON.parse(fs.readFileSync(path.join(__dirname, 'banner.json'), 'utf-8'));
+  for (const banner of bannerData.data) {
+    await prisma.banner.create({
+      data: {
+        banner_name: banner.banner_name,
+        banner_image: banner.banner_image,
+        description: banner.description,
+      },
     });
   }
+
+  // Baca file JSON untuk Service
+  const serviceData = JSON.parse(fs.readFileSync(path.join(__dirname, 'service.json'), 'utf-8'));
+  for (const service of serviceData.data) {
+    await prisma.service.create({
+      data: {
+        service_code: service.service_code,
+        service_name: service.service_name,
+        service_icon: service.service_icon,
+        service_tarif: service.service_tarif,
+      },
+    });
+  }
+
+  console.log('Data Banner dan Service berhasil diinput.');
 }
 
 main()
