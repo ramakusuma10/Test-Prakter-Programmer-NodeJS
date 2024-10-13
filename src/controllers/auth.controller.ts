@@ -4,7 +4,7 @@ import { RegisterDTO } from '../dto/register.dto';
 import { LoginDTO } from '../dto/login.dto';
 import { z } from 'zod';
 
-class AuthControllers {
+class authControllers {
   async registerUser(req: Request, res: any) {
     try {
       const data:RegisterDTO = req.body
@@ -46,7 +46,7 @@ class AuthControllers {
   async loginUser(req: Request, res: any) {
     try {
       const data:LoginDTO = req.body
-      const result = await authService.loginUser(req.body);
+      const result = await authService.loginUser(data);
 
       return res.status(200).json({
         status: 0,
@@ -81,4 +81,4 @@ class AuthControllers {
   }
 }
 
-export default new AuthControllers()
+export default new authControllers()

@@ -3,11 +3,19 @@
     "@eslint/js": "^9.12.0",
     "@prisma/client": "^5.20.0",
     "@types/eslint__js": "^8.42.3",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
     "bcrypt": "^5.1.1",
+    "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -25,6 +33,7 @@
     "postinstall": "prisma generate",
     "dev": "nodemon src/index.ts",
     "build": "tsc && prisma generate",
-    "swagger": "node swagger/swagger.js"
+    "swagger:generate": "node src/libs/swagger.js",
+    "seed": "ts-node prisma/seed.ts"
   }
 }
